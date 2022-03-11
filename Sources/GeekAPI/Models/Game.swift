@@ -17,6 +17,7 @@ public struct Game: Decodable, Hashable {
     public let metadata: Metadata
     public let links: [GameLinkType: [GameLink]]
     public let images: [ImageSize: URL]
+    public let imageID: ID?
 
     public struct Metadata: Decodable, Hashable {
 
@@ -60,6 +61,7 @@ public struct Game: Decodable, Hashable {
             }
         }
         self.images = images
+        self.imageID = try container.decodeIfPresent("imageid")
 
         metadata = try Metadata.init(from: decoder)
     }
