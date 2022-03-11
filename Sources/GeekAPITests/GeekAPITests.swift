@@ -13,6 +13,7 @@ class GeekAPITests: XCTestCase {
     let api = GeekAPI()
     let gameID: ID = "169786"
     let gameName = "Scythe"
+    let imageID: ID = "3163924"
 
     func expectJSONResponse<T>(_ request: Request<T>, file: StaticString = #file, line: UInt = #line, validate: @escaping (T) -> Void) {
         let expectation = XCTestExpectation(description: "Make request: \(request.path)")
@@ -38,6 +39,12 @@ class GeekAPITests: XCTestCase {
     func testGetGame() {
         expectJSONResponse(.getGame(id: gameID)) { game in
             XCTAssertEqual(game.item.name, self.gameName)
+        }
+    }
+
+    func testGetImage() {
+        expectJSONResponse(.getImage(id: imageID)) { image in
+            XCTAssertTrue(image.sizes[.large] != nil)
         }
     }
 

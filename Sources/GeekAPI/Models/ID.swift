@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ID: Decodable, Equatable, Hashable, ExpressibleByStringLiteral {
+public struct ID: Decodable, Equatable, Hashable, ExpressibleByStringLiteral, CustomStringConvertible {
     public let value: String
 
     public init(from decoder: Decoder) throws {
@@ -23,4 +23,6 @@ public struct ID: Decodable, Equatable, Hashable, ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         self.value = value
     }
+
+    public var description: String { value }
 }

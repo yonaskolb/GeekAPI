@@ -7,11 +7,31 @@
 //
 
 import Foundation
+import Codability
 
 public struct ImagesResponse: Decodable {
 
     public let images: [Image]
 
+}
+
+public struct ImageResponse: Decodable {
+
+    public let sizes: [ImageSize: URL]
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: RawCodingKey.self)
+        var images: [ImageSize: URL] = [:]
+        let imagesContainer = try container.nestedContainer(keyedBy: ImageSize.self, forKey: "images")
+        for imageSize in ImageSize.allCases {
+            if imagesContainer.contains(imageSize) {
+                let imageContainer = try imagesContainer.nestedContainer(keyedBy: RawCodingKey.self, forKey: imageSize)
+                let url: URL = try imageContainer.decode("url")
+                images[imageSize] = url
+            }
+        }
+        self.sizes = images
+    }
 }
 
 public protocol ImagesContainer {
@@ -46,12 +66,13 @@ public enum ImageGallery: String {
 
 public enum ImageSize: String, CodingKey, CaseIterable {
 
-    case thumb = "thumb"
-    case micro = "micro"
-    case square = "square"
+    case thumb
+    case micro
+    case square
     case squareFit = "squarefit"
     case tallThumb = "tallthumb"
     case previewThumb = "previewthumb"
-    case square200 = "square200"
-
+    case square200
+    case large
+    case original
 }

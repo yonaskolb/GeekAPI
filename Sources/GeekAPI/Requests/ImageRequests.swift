@@ -28,4 +28,8 @@ extension Request {
         }
         return .jsonRequest(path: "images", params: params)
     }
+
+    public static func getImage(id: ID) -> Request<ImageResponse> {
+        return .jsonRequest(path: "images/\(id)")
+    }
 }
