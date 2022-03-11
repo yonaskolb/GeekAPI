@@ -42,7 +42,7 @@ class GeekAPITests: XCTestCase {
     }
 
     func testGetImages() {
-        expectJSONResponse(.getImages(id: gameID, count: 10)) { images in
+        expectJSONResponse(.getImages(id: gameID, count: 10, tag: "BoxFront")) { images in
             XCTAssertEqual(images.images.count, 10)
         }
     }
